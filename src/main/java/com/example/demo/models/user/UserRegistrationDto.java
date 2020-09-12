@@ -1,9 +1,24 @@
-package com.example.demo.models;
+package com.example.demo.models.user;
+
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.*;
+
 
 public class UserRegistrationDto {
 
+    @NotNull
+    @Size(min=6,message = "Login nie może być krotszy niż 6 znaków")
+    @NotBlank
     private String nickname;
+    @NotNull
+    @Size(min=8, message = "Hasło musi się składać przynajmniej z 8 znaków")
     private String password;
+    @NotNull
+    @NotEmpty(message = "email cannot be empty.")
+    @Email(message = "Adres mail nie poprawny")
     private String email;
 
     public UserRegistrationDto() {

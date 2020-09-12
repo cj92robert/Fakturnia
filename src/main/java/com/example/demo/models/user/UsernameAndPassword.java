@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.models.user;
 
 public class UsernameAndPassword {
     private String username;

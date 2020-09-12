@@ -1,9 +1,8 @@
-package com.example.demo.models;
+package com.example.demo.models.user;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,6 +19,11 @@ public class Role implements GrantedAuthority{
 
 
     public Role() {
+    }
+
+    public Role(String name, Set<PermissionUser> permissionUsers) {
+        this.name = name;
+        this.permissionUsers = permissionUsers;
     }
 
     public Long getId() {

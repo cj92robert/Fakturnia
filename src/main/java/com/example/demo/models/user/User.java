@@ -1,13 +1,13 @@
-package com.example.demo.models;
+package com.example.demo.models.user;
 
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +21,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
+    private Date createdAt;
     @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name="user_role",
@@ -30,6 +31,11 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    @PrePersist
+    void createdAt() {
+        this.createdAt= new Date(System.currentTimeMillis());
     }
 
     public Long getId() {
