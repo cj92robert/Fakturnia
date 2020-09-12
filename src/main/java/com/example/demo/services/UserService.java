@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.exception.EmailAlreadyExistInDatabaseException;
+import com.example.demo.exception.UsernameAllreadyExistInDatabaseException;
 import com.example.demo.models.user.Role;
 import com.example.demo.models.user.User;
 import com.example.demo.models.user.UserRegistrationDto;
@@ -29,12 +31,17 @@ public class UserService {
 
         userRegistrationDto.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
 
+       if(userRepository.existsByUsername(userRegistrationDto.getNickname()))
+           throw new UsernameAllreadyExistInDatabaseException("Username already exist.");
+
+        if(userRepository.existsByEmail(userRegistrationDto.getEmail()))
+            throw new EmailAlreadyExistInDatabaseException("Email already exist.");
+
         User user = User.from(userRegistrationDto);
 
-        Role student = new Role("Student", Collections.emptySet());
-        if (!roleRepository.existsById(1L))
-            student = roleRepository.save(student);
-        var role = roleRepository.findById(1L).orElse(student);
+
+
+        var role = roleRepository.findById(1L).orElseThrow(RuntimeException::new);
         user.setRoles(Set.of(role));
         userRepository.save(user);
 
