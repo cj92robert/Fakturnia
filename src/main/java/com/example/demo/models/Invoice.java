@@ -1,33 +1,53 @@
 package com.example.demo.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Invoice {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotEmpty
     private String numberOfInvoice;
+    @NotEmpty
     private String placeOfCreation;
+    @NotEmpty
     private Date dateOfCreation;
+    @NotEmpty
     private Date dateOfSale;
+    @NotNull
+    @ManyToOne
     private Customer customer;
+    @NotNull
+    @OneToMany
     private List<PositionOnInvoice> positionOnInvoiceList;
-    private String stateOfPayment;
+
+    private String statusOfPayment;
+    @NotEmpty
     private Date dateOfPayment;
+    @NotEmpty
     private String wayOfPayment;
+    @NotEmpty
     private String accountNumber;
+
     private String description;
 
     public Invoice() {
     }
 
-    public Invoice(String numberOfInvoice, String placeOfCreation, Date dateOfCreation, Date dateOfSale, Customer customer, List<PositionOnInvoice> positionOnInvoiceList, String stateOfPayment, Date dateOfPayment, String wayOfPayment, String accountNumber, String description) {
+    public Invoice(String numberOfInvoice, String placeOfCreation, Date dateOfCreation, Date dateOfSale, Customer customer, List<PositionOnInvoice> positionOnInvoiceList, String statusOfPayment, Date dateOfPayment, String wayOfPayment, String accountNumber, String description) {
         this.numberOfInvoice = numberOfInvoice;
         this.placeOfCreation = placeOfCreation;
         this.dateOfCreation = dateOfCreation;
         this.dateOfSale = dateOfSale;
         this.customer = customer;
         this.positionOnInvoiceList = positionOnInvoiceList;
-        this.stateOfPayment = stateOfPayment;
+        this.statusOfPayment = statusOfPayment;
         this.dateOfPayment = dateOfPayment;
         this.wayOfPayment = wayOfPayment;
         this.accountNumber = accountNumber;
@@ -82,12 +102,12 @@ public class Invoice {
         this.positionOnInvoiceList = positionOnInvoiceList;
     }
 
-    public String getStateOfPayment() {
-        return stateOfPayment;
+    public String getStatusOfPayment() {
+        return statusOfPayment;
     }
 
-    public void setStateOfPayment(String stateOfPayment) {
-        this.stateOfPayment = stateOfPayment;
+    public void setStatusOfPayment(String stateOfPayment) {
+        this.statusOfPayment = stateOfPayment;
     }
 
     public Date getDateOfPayment() {
