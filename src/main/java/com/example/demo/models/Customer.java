@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.example.demo.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -22,13 +24,17 @@ public class Customer {
     private String city;
     private String adress;
     private String country;
-    private long discount;
+    private Long discount;
     private String email;
     private String nip;
     private String regon;
     private String description;
     private String bankAccountNumber;
     private Date createdAt;
+
+    @JsonIgnore
+    @ManyToOne
+    private User user;
 
     public Customer() {
     }
@@ -49,6 +55,24 @@ public class Customer {
         this.regon = regon;
         this.description = description;
         this.bankAccountNumber = bankAccountNumber;
+
+
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @PrePersist
@@ -128,11 +152,11 @@ public class Customer {
         this.country = country;
     }
 
-    public long getDiscount() {
+    public Long getDiscount() {
         return discount;
     }
 
-    public void setDiscount(long discount) {
+    public void setDiscount(Long discount) {
         this.discount = discount;
     }
 

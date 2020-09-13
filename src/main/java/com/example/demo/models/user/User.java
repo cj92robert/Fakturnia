@@ -1,6 +1,7 @@
 package com.example.demo.models.user;
 
 
+import com.example.demo.models.Customer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,9 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
+    @OneToMany
+    private List<Customer> customerList;
+
     public User() {
     }
 
@@ -44,6 +49,14 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
     }
 
     public Set<Role> getRoles() {
