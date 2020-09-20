@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import com.example.demo.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,6 +39,10 @@ public class Invoice {
     private String accountNumber;
 
     private String description;
+
+    @JsonIgnore
+    @ManyToOne
+    private User user;
 
     public Invoice() {
     }
@@ -140,5 +147,14 @@ public class Invoice {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

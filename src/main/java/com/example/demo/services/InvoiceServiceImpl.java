@@ -1,35 +1,94 @@
 package com.example.demo.services;
 
+import com.example.demo.exception.InvoiceNotFound;
 import com.example.demo.models.Invoice;
+import com.example.demo.repositories.InvoiceRepository;
+import com.example.demo.repositories.UserRepository;
+import com.google.common.base.Strings;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
+
+    private final UserRepository userRepository;
+    private final InvoiceRepository invoiceRepository;
+
+    public InvoiceServiceImpl(UserRepository userRepository, InvoiceRepository invoiceRepository) {
+        this.userRepository = userRepository;
+        this.invoiceRepository = invoiceRepository;
+    }
+
+
     @Override
     public List<Invoice> getAll() {
-        return null;
+
+        return invoiceRepository.getAllByUsername(getUserFromContext());
     }
 
     @Override
     public Invoice getById(Long id) {
-        return null;
+        return invoiceRepository.findByIdAndUsername(id,getUserFromContext())
+                .orElseThrow(InvoiceNotFound::new);
     }
 
+    @Transactional
     @Override
     public Invoice save(Invoice invoice) {
+        var user = userRepository.findByUsername(getUserFromContext()).orElseThrow();
+        invoice.setUser(user);
+        invoice=invoiceRepository.save(invoice);
+        user.getInvoiceList().add(invoice);
         return null;
     }
 
+    @Transactional
     @Override
     public Invoice update(Long id, Invoice invoice) {
-        return null;
+        var invoiceOld = invoiceRepository
+                .findByIdAndUsername(id, getUserFromContext())
+                .orElseThrow(InvoiceNotFound::new);
+
+        if(!Strings.isNullOrEmpty(invoice.getNumberOfInvoice()))
+            invoiceOld.setNumberOfInvoice(invoice.getNumberOfInvoice());
+        if(!Strings.isNullOrEmpty(invoice.getPlaceOfCreation()))
+            invoiceOld.setPlaceOfCreation(invoice.getPlaceOfCreation());
+        if(!Strings.isNullOrEmpty(invoice.getStatusOfPayment()))
+            invoiceOld.setStatusOfPayment(invoice.getStatusOfPayment());
+        if(!Strings.isNullOrEmpty(invoice.getWayOfPayment()))
+            invoiceOld.setWayOfPayment(invoice.getWayOfPayment());
+        if(!Strings.isNullOrEmpty(invoice.getAccountNumber()))
+            invoiceOld.setAccountNumber(invoice.getAccountNumber());
+        if(!Strings.isNullOrEmpty(invoice.getDescription()))
+            invoiceOld.setDescription(invoice.getDescription());
+        if(invoice.getDateOfCreation()!=null)
+            invoiceOld.setDateOfCreation(invoice.getDateOfCreation());
+        if(invoice.getDateOfSale()!=null)
+            invoiceOld.setDateOfSale(invoice.getDateOfSale());
+        if(invoice.getDateOfPayment()!=null)
+            invoiceOld.setDateOfPayment(invoice.getDateOfPayment());
+
+        return invoiceOld;
     }
 
     @Override
     public Invoice delete(Long id) {
-        return null;
+        var invoice= invoiceRepository
+                .findByIdAndUsername(id,getUserFromContext())
+                .orElseThrow(InvoiceNotFound::new);
+        invoiceRepository.delete(invoice);
+        return invoice;
+    }
+
+    private String getUserFromContext(){
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
+        return  (String) authentication.getPrincipal();
+
     }
 }

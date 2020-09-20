@@ -2,6 +2,7 @@ package com.example.demo.models.user;
 
 
 import com.example.demo.models.Customer;
+import com.example.demo.models.Invoice;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +35,12 @@ public class User implements UserDetails {
 
     @OneToMany
     private List<Customer> customerList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Invoice> invoiceList;
+
+
+
 
     public User() {
     }
@@ -128,5 +135,13 @@ public class User implements UserDetails {
         user.setPassword(userRegistrationDto.getPassword());
         user.setEmail(userRegistrationDto.getEmail());
         return user;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
     }
 }
