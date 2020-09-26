@@ -157,4 +157,52 @@ public class Invoice {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Invoice invoice = (Invoice) o;
+
+        if (id != null ? !id.equals(invoice.id) : invoice.id != null) return false;
+        if (numberOfInvoice != null ? !numberOfInvoice.equals(invoice.numberOfInvoice) : invoice.numberOfInvoice != null)
+            return false;
+        if (placeOfCreation != null ? !placeOfCreation.equals(invoice.placeOfCreation) : invoice.placeOfCreation != null)
+            return false;
+        if (dateOfCreation != null ? !dateOfCreation.equals(invoice.dateOfCreation) : invoice.dateOfCreation != null)
+            return false;
+        if (dateOfSale != null ? !dateOfSale.equals(invoice.dateOfSale) : invoice.dateOfSale != null) return false;
+        if (customer != null ? !customer.equals(invoice.customer) : invoice.customer != null) return false;
+        if (positionOnInvoiceList != null ? !positionOnInvoiceList.equals(invoice.positionOnInvoiceList) : invoice.positionOnInvoiceList != null)
+            return false;
+        if (statusOfPayment != null ? !statusOfPayment.equals(invoice.statusOfPayment) : invoice.statusOfPayment != null)
+            return false;
+        if (dateOfPayment != null ? !dateOfPayment.equals(invoice.dateOfPayment) : invoice.dateOfPayment != null)
+            return false;
+        if (wayOfPayment != null ? !wayOfPayment.equals(invoice.wayOfPayment) : invoice.wayOfPayment != null)
+            return false;
+        if (accountNumber != null ? !accountNumber.equals(invoice.accountNumber) : invoice.accountNumber != null)
+            return false;
+        if (description != null ? !description.equals(invoice.description) : invoice.description != null) return false;
+        return user != null ? user.equals(invoice.user) : invoice.user == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (numberOfInvoice != null ? numberOfInvoice.hashCode() : 0);
+        result = 31 * result + (placeOfCreation != null ? placeOfCreation.hashCode() : 0);
+        result = 31 * result + (dateOfCreation != null ? dateOfCreation.hashCode() : 0);
+        result = 31 * result + (dateOfSale != null ? dateOfSale.hashCode() : 0);
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        result = 31 * result + (positionOnInvoiceList != null ? positionOnInvoiceList.hashCode() : 0);
+        result = 31 * result + (statusOfPayment != null ? statusOfPayment.hashCode() : 0);
+        result = 31 * result + (dateOfPayment != null ? dateOfPayment.hashCode() : 0);
+        result = 31 * result + (wayOfPayment != null ? wayOfPayment.hashCode() : 0);
+        result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        return result;
+    }
 }

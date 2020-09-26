@@ -76,4 +76,30 @@ public class PositionOnInvoice {
     public void setPriceForUnit(BigDecimal priceForUnit) {
         this.priceForUnit = priceForUnit;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PositionOnInvoice that = (PositionOnInvoice) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
+        if (taxRate != null ? !taxRate.equals(that.taxRate) : that.taxRate != null) return false;
+        if (typeUnit != null ? !typeUnit.equals(that.typeUnit) : that.typeUnit != null) return false;
+        return priceForUnit != null ? priceForUnit.equals(that.priceForUnit) : that.priceForUnit == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        result = 31 * result + (taxRate != null ? taxRate.hashCode() : 0);
+        result = 31 * result + (typeUnit != null ? typeUnit.hashCode() : 0);
+        result = 31 * result + (priceForUnit != null ? priceForUnit.hashCode() : 0);
+        return result;
+    }
 }

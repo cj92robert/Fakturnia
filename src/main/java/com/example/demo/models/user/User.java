@@ -7,8 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-
-
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -143,5 +141,35 @@ public class User implements UserDetails {
 
     public void setInvoiceList(List<Invoice> invoiceList) {
         this.invoiceList = invoiceList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (createdAt != null ? !createdAt.equals(user.createdAt) : user.createdAt != null) return false;
+        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
+        if (customerList != null ? !customerList.equals(user.customerList) : user.customerList != null) return false;
+        return invoiceList != null ? invoiceList.equals(user.invoiceList) : user.invoiceList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (customerList != null ? customerList.hashCode() : 0);
+        result = 31 * result + (invoiceList != null ? invoiceList.hashCode() : 0);
+        return result;
     }
 }

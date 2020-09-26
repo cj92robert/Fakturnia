@@ -1,7 +1,5 @@
 package com.example.demo.models;
 
-import com.google.common.base.Objects;
-
 public class ErrorResponse {
     private String description;
 
@@ -24,12 +22,14 @@ public class ErrorResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ErrorResponse errorResponse = (ErrorResponse) o;
-        return Objects.equal(description, errorResponse.description);
+
+        ErrorResponse that = (ErrorResponse) o;
+
+        return description != null ? description.equals(that.description) : that.description == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(description);
+        return description != null ? description.hashCode() : 0;
     }
 }

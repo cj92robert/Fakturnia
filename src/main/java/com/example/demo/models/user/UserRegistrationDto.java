@@ -1,9 +1,6 @@
 package com.example.demo.models.user;
 
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.validation.annotation.Validated;
-
 import javax.validation.constraints.*;
 
 
@@ -53,5 +50,25 @@ public class UserRegistrationDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserRegistrationDto that = (UserRegistrationDto) o;
+
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        return email != null ? email.equals(that.email) : that.email == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nickname != null ? nickname.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.models.user;
 
+import com.google.common.base.Objects;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
@@ -39,5 +40,19 @@ public class PermissionUser implements GrantedAuthority {
 
     public String getAuthority() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PermissionUser that = (PermissionUser) o;
+        return Objects.equal(id, that.id) &&
+                Objects.equal(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, name);
     }
 }
