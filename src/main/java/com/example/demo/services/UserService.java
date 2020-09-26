@@ -1,8 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.exception.EmailAlreadyExistInDatabaseException;
-import com.example.demo.exception.UsernameAllreadyExistInDatabaseException;
-import com.example.demo.models.user.Role;
+import com.example.demo.exception.UsernameAlreadyExistInDatabaseException;
 import com.example.demo.models.user.User;
 import com.example.demo.models.user.UserRegistrationDto;
 import com.example.demo.repositories.RoleRepository;
@@ -10,7 +9,6 @@ import com.example.demo.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Set;
 
 @Service
@@ -32,7 +30,7 @@ public class UserService {
         userRegistrationDto.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
 
        if(userRepository.existsByUsername(userRegistrationDto.getNickname()))
-           throw new UsernameAllreadyExistInDatabaseException("Username already exist.");
+           throw new UsernameAlreadyExistInDatabaseException("Username already exist.");
 
         if(userRepository.existsByEmail(userRegistrationDto.getEmail()))
             throw new EmailAlreadyExistInDatabaseException("Email already exist.");
