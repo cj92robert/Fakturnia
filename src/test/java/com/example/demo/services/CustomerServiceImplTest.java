@@ -133,9 +133,9 @@ class CustomerServiceImplTest {
     void deleteMethodShouldThrowException() {
         //given
         when(customerRepository.getByIdAndUsername(any(), any())).thenReturn(Optional.empty());
-        //when
 
-        //then
+
+        //when + then
         assertThrows(CustomerDoesnotExist.class, () -> customerService.delete(3L));
     }
 }
