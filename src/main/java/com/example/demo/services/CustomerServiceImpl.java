@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService{
     public Customer getById(Long id) {
         return customerRepository
                 .getByIdAndUsername(id, getUserFromContext())
-                .orElseThrow(()-> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new CustomerDoesnotExist("Customer not found"));
     }
 
     @Transactional
