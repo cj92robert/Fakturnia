@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Error;
+import com.example.demo.models.ErrorResponse;
 import com.example.demo.services.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class RegisterControllerTest {
     @Test
     void UsernameAlreadyExistHandlerShouldReturnObjectErrorWithInformation() {
 
-        var response = new ResponseEntity<>(new Error("User already exist in database"), HttpStatus.valueOf(500));
+        var response = new ResponseEntity<>(new ErrorResponse("User already exist in database"), HttpStatus.valueOf(500));
 
         assertThat(registerController.handlerUsernameAlreadyExist()).isEqualTo(response);
     }
@@ -44,7 +44,7 @@ class RegisterControllerTest {
     @Test
     void EmailAlreadyExistHandlerShouldReturnObjectErrorWithInformation() {
 
-        var response = new ResponseEntity<>(new Error("Email already exist in database"), HttpStatus.valueOf(500));
+        var response = new ResponseEntity<>(new ErrorResponse("Email already exist in database"), HttpStatus.valueOf(500));
 
         assertThat(registerController.handlerEmailAlreadyExist()).isEqualTo(response);
     }

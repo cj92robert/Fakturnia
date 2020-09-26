@@ -2,13 +2,13 @@ package com.example.demo.models;
 
 import com.google.common.base.Objects;
 
-public class Error {
+public class ErrorResponse {
     private String description;
 
-    public Error() {
+    public ErrorResponse() {
     }
 
-    public Error(String description) {
+    public ErrorResponse(String description) {
         this.description = description;
     }
 
@@ -24,8 +24,8 @@ public class Error {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Error error = (Error) o;
-        return Objects.equal(description, error.description);
+        ErrorResponse errorResponse = (ErrorResponse) o;
+        return Objects.equal(description, errorResponse.description);
     }
 
     @Override

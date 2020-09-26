@@ -3,7 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.exception.EmailAlreadyExistInDatabaseException;
 import com.example.demo.exception.UsernameAlreadyExistInDatabaseException;
-import com.example.demo.models.Error;
+import com.example.demo.models.ErrorResponse;
 import com.example.demo.models.user.UserRegistrationDto;
 import com.example.demo.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -32,15 +32,15 @@ public class RegisterController {
     }
 
     @ExceptionHandler(UsernameAlreadyExistInDatabaseException.class)
-    public ResponseEntity<Error> handlerUsernameAlreadyExist() {
-        return new ResponseEntity<>(new Error("User already exist in database"),
+    public ResponseEntity<ErrorResponse> handlerUsernameAlreadyExist() {
+        return new ResponseEntity<>(new ErrorResponse("User already exist in database"),
                 HttpStatus.valueOf(500));
 
     }
 
     @ExceptionHandler(EmailAlreadyExistInDatabaseException.class)
-    public ResponseEntity<Error> handlerEmailAlreadyExist() {
-        return new ResponseEntity<>(new Error("Email already exist in database"),
+    public ResponseEntity<ErrorResponse> handlerEmailAlreadyExist() {
+        return new ResponseEntity<>(new ErrorResponse("Email already exist in database"),
                 HttpStatus.valueOf(500));
     }
 }
