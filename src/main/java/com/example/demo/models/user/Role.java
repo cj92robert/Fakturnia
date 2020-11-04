@@ -87,7 +87,6 @@ public class Role implements GrantedAuthority{
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (users != null ? users.hashCode() : 0);
-        result = 31 * result + (permissionUsers != null ? permissionUsers.hashCode() : 0);
         return result;
     }
 }

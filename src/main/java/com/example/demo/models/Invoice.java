@@ -202,7 +202,6 @@ public class Invoice {
         result = 31 * result + (wayOfPayment != null ? wayOfPayment.hashCode() : 0);
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 }

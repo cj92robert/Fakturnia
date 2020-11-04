@@ -246,7 +246,6 @@ public class Customer {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (bankAccountNumber != null ? bankAccountNumber.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 }

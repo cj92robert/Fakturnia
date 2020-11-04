@@ -167,9 +167,6 @@ public class User implements UserDetails {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
-        result = 31 * result + (customerList != null ? customerList.hashCode() : 0);
-        result = 31 * result + (invoiceList != null ? invoiceList.hashCode() : 0);
         return result;
     }
 }
