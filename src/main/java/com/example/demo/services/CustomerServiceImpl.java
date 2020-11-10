@@ -40,22 +40,36 @@ public class CustomerServiceImpl implements CustomerService{
     @Transactional
     @Override
     public Customer save(Customer customer) {
-        User user =userRepository.findByUsername(getUserFromContext()).orElseThrow();
+
+        User user = getLoggedUserFromDatabase();
+
         customer.setUser(user);
         customer.setId(null);
-        customer=customerRepository.save(customer);
+
+        customer = customerRepository.save(customer);
+
         user.getCustomerList().add(customer);
         return customer;
+    }
+
+    private User getLoggedUserFromDatabase() {
+        return userRepository.findByUsername(getUserFromContext()).orElseThrow();
     }
 
     @Transactional
     @Override
     public Customer update(Long id, Customer customer) {
 
-        var customerOld=customerRepository
-                .getByIdAndUsername(id,getUserFromContext())
-                .orElseThrow(()->new CustomerDoesnotExist("Customer don't exist"));
+        var customerOld = customerRepository
+                .getByIdAndUsername(id, getUserFromContext())
+                .orElseThrow(() -> new CustomerDoesnotExist("Customer don't exist"));
 
+        updateFieldIfIsNotNullOrEmpty(customer, customerOld);
+
+        return customerOld;
+    }
+
+    private void updateFieldIfIsNotNullOrEmpty(Customer customer, Customer customerOld) {
         if (!Strings.isNullOrEmpty(customer.getShortName()))
             customerOld.setShortName(customer.getShortName());
         if (!Strings.isNullOrEmpty(customer.getLongName()))
@@ -84,17 +98,15 @@ public class CustomerServiceImpl implements CustomerService{
             customerOld.setBankAccountNumber(customer.getBankAccountNumber());
         if(!Strings.isNullOrEmpty(customer.getIdCardNumber()))
             customerOld.setIdCardNumber(customer.getIdCardNumber());
-
-
-        return customerOld ;
     }
 
     @Override
     public Customer delete(Long id) {
+
         var customer= customerRepository
                 .getByIdAndUsername(id,getUserFromContext())
                 .orElseThrow(()->new CustomerDoesnotExist("Customer cannot delete because it doesn't find."));
-        customerRepository.delete(customer);
+        customerRepository.deleteById(id);
         return customer;
     }
 
