@@ -6,12 +6,13 @@ import com.example.demo.models.user.User;
 import com.example.demo.repositories.CustomerRepository;
 import com.example.demo.repositories.UserRepository;
 import com.google.common.base.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -25,8 +26,8 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public List<Customer> getAll() {
-        return customerRepository.getAllByUsername(getUserFromContext());
+    public Page<Customer> getAll(Pageable pageable) {
+        return customerRepository.getAllByUsername(getUserFromContext(), pageable);
     }
 
     @Override
@@ -55,29 +56,29 @@ public class CustomerServiceImpl implements CustomerService{
                 .getByIdAndUsername(id,getUserFromContext())
                 .orElseThrow(()->new CustomerDoesnotExist("Customer don't exist"));
 
-        if(!Strings.isNullOrEmpty(customer.getShortName()))
+        if (!Strings.isNullOrEmpty(customer.getShortName()))
             customerOld.setShortName(customer.getShortName());
-        if(!Strings.isNullOrEmpty(customer.getLongName()))
+        if (!Strings.isNullOrEmpty(customer.getLongName()))
             customerOld.setLongName(customer.getLongName());
-        if(!Strings.isNullOrEmpty(customer.getPhone()))
+        if (!Strings.isNullOrEmpty(customer.getPhone()))
             customerOld.setPhone(customer.getPhone());
-        if(!Strings.isNullOrEmpty(customer.getPostcode()))
+        if (!Strings.isNullOrEmpty(customer.getPostcode()))
             customerOld.setPostcode(customer.getPostcode());
-        if(!Strings.isNullOrEmpty(customer.getCity()))
+        if (!Strings.isNullOrEmpty(customer.getCity()))
             customerOld.setCity(customer.getCity());
-        if(!Strings.isNullOrEmpty(customer.getAdress()))
-            customerOld.setAdress(customer.getAdress());
-        if(!Strings.isNullOrEmpty(customer.getCountry()))
+        if (!Strings.isNullOrEmpty(customer.getAddress()))
+            customerOld.setAddress(customer.getAddress());
+        if (!Strings.isNullOrEmpty(customer.getCountry()))
             customerOld.setCountry(customer.getCountry());
-        if(customer.getDiscount()!=null)
+        if (customer.getDiscount() != null)
             customerOld.setDiscount(customer.getDiscount());
-        if(!Strings.isNullOrEmpty(customer.getEmail()))
+        if (!Strings.isNullOrEmpty(customer.getEmail()))
             customerOld.setEmail(customer.getEmail());
-        if(!Strings.isNullOrEmpty(customer.getNip()))
+        if (!Strings.isNullOrEmpty(customer.getNip()))
             customerOld.setNip(customer.getNip());
-        if(!Strings.isNullOrEmpty(customer.getRegon()))
+        if (!Strings.isNullOrEmpty(customer.getRegon()))
             customerOld.setRegon(customer.getRegon());
-        if(!Strings.isNullOrEmpty(customer.getDescription()))
+        if (!Strings.isNullOrEmpty(customer.getDescription()))
             customerOld.setDescription(customer.getDescription());
         if(!Strings.isNullOrEmpty(customer.getBankAccountNumber()))
             customerOld.setBankAccountNumber(customer.getBankAccountNumber());

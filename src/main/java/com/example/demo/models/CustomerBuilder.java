@@ -108,7 +108,7 @@ public final class CustomerBuilder {
         customer.setIdCardNumber(IdCardNumber);
         customer.setPostcode(postcode);
         customer.setCity(city);
-        customer.setAdress(adress);
+        customer.setAddress(adress);
         customer.setCountry(country);
         customer.setDiscount(discount);
         customer.setEmail(email);

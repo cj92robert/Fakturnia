@@ -18,10 +18,10 @@ public class Customer {
     @NotNull
     private String longName;
     private String phone;
-    private String IdCardNumber;
+    private String idCardNumber;
     private String postcode;
     private String city;
-    private String adress;
+    private String address;
     private String country;
     private Long discount;
     private String email;
@@ -43,10 +43,10 @@ public class Customer {
         this.shortName = shortName;
         this.longName = longName;
         this.phone = phone;
-        IdCardNumber = idCardNumber;
+        this.idCardNumber = idCardNumber;
         this.postcode = postcode;
         this.city = city;
-        this.adress = adress;
+        this.address = adress;
         this.country = country;
         this.discount = discount;
         this.email = email;
@@ -112,11 +112,11 @@ public class Customer {
     }
 
     public String getIdCardNumber() {
-        return IdCardNumber;
+        return idCardNumber;
     }
 
     public void setIdCardNumber(String idCardNumber) {
-        IdCardNumber = idCardNumber;
+        this.idCardNumber = idCardNumber;
     }
 
     public String getPostcode() {
@@ -135,12 +135,12 @@ public class Customer {
         this.city = city;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCountry() {
@@ -210,11 +210,11 @@ public class Customer {
         if (shortName != null ? !shortName.equals(customer.shortName) : customer.shortName != null) return false;
         if (longName != null ? !longName.equals(customer.longName) : customer.longName != null) return false;
         if (phone != null ? !phone.equals(customer.phone) : customer.phone != null) return false;
-        if (IdCardNumber != null ? !IdCardNumber.equals(customer.IdCardNumber) : customer.IdCardNumber != null)
+        if (idCardNumber != null ? !idCardNumber.equals(customer.idCardNumber) : customer.idCardNumber != null)
             return false;
         if (postcode != null ? !postcode.equals(customer.postcode) : customer.postcode != null) return false;
         if (city != null ? !city.equals(customer.city) : customer.city != null) return false;
-        if (adress != null ? !adress.equals(customer.adress) : customer.adress != null) return false;
+        if (address != null ? !address.equals(customer.address) : customer.address != null) return false;
         if (country != null ? !country.equals(customer.country) : customer.country != null) return false;
         if (discount != null ? !discount.equals(customer.discount) : customer.discount != null) return false;
         if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
@@ -234,10 +234,10 @@ public class Customer {
         result = 31 * result + (shortName != null ? shortName.hashCode() : 0);
         result = 31 * result + (longName != null ? longName.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (IdCardNumber != null ? IdCardNumber.hashCode() : 0);
+        result = 31 * result + (idCardNumber != null ? idCardNumber.hashCode() : 0);
         result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (discount != null ? discount.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);

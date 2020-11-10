@@ -2,10 +2,11 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Customer;
 import com.example.demo.services.CustomerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customer/")
@@ -18,8 +19,8 @@ public class CustomerController {
     }
 
     @GetMapping
-    List<Customer> getAllCustomer(){
-        return customerService.getAll();
+    Page<Customer> getAllCustomer(Pageable pageable) {
+        return customerService.getAll(pageable);
     }
 
     @GetMapping("{id}")

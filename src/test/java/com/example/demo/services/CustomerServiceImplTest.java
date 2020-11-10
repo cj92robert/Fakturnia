@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,15 +58,15 @@ class CustomerServiceImplTest {
 
         var customer = new Customer();
         customer.setId(5L);
-        List<Customer> customerList = List.of(new Customer(), new Customer(), customer);
-        when(customerRepository.getAllByUsername(any())).thenReturn(customerList);
+        Page<Customer> customerList = new PageImpl<>(List.of(new Customer(), new Customer(), customer));
+        when(customerRepository.getAllByUsername(any(), any())).thenReturn(customerList);
         //when
-        var result = customerService.getAll();
+        var result = customerService.getAll(PageRequest.of(1, 10));
         //then
 
         assertThat(result)
                 .containsAll(customerList)
-                .hasSize(customerList.size());
+                .hasSize(customerList.getSize());
     }
 
     @Test
