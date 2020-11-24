@@ -18,5 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
             " where customer.user.username=?2 AND customer.id=?1")
     Optional<Customer> getByIdAndUsername(Long id, String username);
 
+    Optional<Customer> getTopByNip(String s);
 
 }

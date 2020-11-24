@@ -1,8 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.exception.InvoiceNotFound;
+import com.example.demo.models.Customer;
 import com.example.demo.models.Invoice;
+import com.example.demo.repositories.CustomerRepository;
 import com.example.demo.repositories.InvoiceRepository;
+import com.example.demo.repositories.PositionOnInvoiceRepository;
 import com.example.demo.repositories.UserRepository;
 import com.google.common.base.Strings;
 import org.springframework.security.core.Authentication;
@@ -18,10 +21,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final UserRepository userRepository;
     private final InvoiceRepository invoiceRepository;
+    private final CustomerRepository customerRepository;
+    private final PositionOnInvoiceRepository positionOnInvoiceRepository;
 
-    public InvoiceServiceImpl(UserRepository userRepository, InvoiceRepository invoiceRepository) {
+    public InvoiceServiceImpl(UserRepository userRepository, InvoiceRepository invoiceRepository, CustomerRepository customerRepository, PositionOnInvoiceRepository positionOnInvoiceRepository) {
         this.userRepository = userRepository;
         this.invoiceRepository = invoiceRepository;
+        this.customerRepository = customerRepository;
+
+        this.positionOnInvoiceRepository = positionOnInvoiceRepository;
     }
 
 
@@ -42,7 +50,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     public Invoice save(Invoice invoice) {
         var user = userRepository.findByUsername(getUserFromContext()).orElseThrow();
         invoice.setUser(user);
-        invoice=invoiceRepository.save(invoice);
+        var customerOptional = customerRepository.getTopByNip(invoice.getCustomerDate().getNip());
+        if (customerOptional.isPresent()) {
+            invoice.setCustomer(customerOptional.get());
+        } else {
+            Customer customer = new Customer();
+            customer.setAddress(invoice.getCustomerDate().getStreet());
+            customer.setCity(invoice.getCustomerDate().getCity());
+            customer.setNip(invoice.getCustomerDate().getNip());
+            customerRepository.save(customer);
+        }
+        positionOnInvoiceRepository.saveAll(invoice.getPositionOnInvoiceList());
+        invoice = invoiceRepository.save(invoice);
         user.getInvoiceList().add(invoice);
         return null;
     }
@@ -54,17 +73,17 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .findByIdAndUsername(id, getUserFromContext())
                 .orElseThrow(InvoiceNotFound::new);
 
-        if(!Strings.isNullOrEmpty(invoice.getNumberOfInvoice()))
+        if (!Strings.isNullOrEmpty(invoice.getNumberOfInvoice()))
             invoiceOld.setNumberOfInvoice(invoice.getNumberOfInvoice());
-        if(!Strings.isNullOrEmpty(invoice.getPlaceOfCreation()))
+        if (!Strings.isNullOrEmpty(invoice.getPlaceOfCreation()))
             invoiceOld.setPlaceOfCreation(invoice.getPlaceOfCreation());
-        if(!Strings.isNullOrEmpty(invoice.getStatusOfPayment()))
+        if (invoice.getStatusOfPayment() != null)
             invoiceOld.setStatusOfPayment(invoice.getStatusOfPayment());
-        if(!Strings.isNullOrEmpty(invoice.getWayOfPayment()))
+        if (invoice.getWayOfPayment() != null)
             invoiceOld.setWayOfPayment(invoice.getWayOfPayment());
-        if(!Strings.isNullOrEmpty(invoice.getAccountNumber()))
+        if (!Strings.isNullOrEmpty(invoice.getAccountNumber()))
             invoiceOld.setAccountNumber(invoice.getAccountNumber());
-        if(!Strings.isNullOrEmpty(invoice.getDescription()))
+        if (!Strings.isNullOrEmpty(invoice.getDescription()))
             invoiceOld.setDescription(invoice.getDescription());
         if(invoice.getDateOfCreation()!=null)
             invoiceOld.setDateOfCreation(invoice.getDateOfCreation());

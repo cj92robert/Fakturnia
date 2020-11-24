@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,24 +20,36 @@ public class Invoice {
     private String numberOfInvoice;
     @NotEmpty
     private String placeOfCreation;
-    @NotEmpty
     private Date dateOfCreation;
-    @NotEmpty
     private Date dateOfSale;
-    @NotNull
     @ManyToOne
+    @JsonIgnore
     private Customer customer;
+
+    @Embedded
+    private DateCompany customerDate;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(name = "customerName")),
+            @AttributeOverride(name = "nip", column = @Column(name = "customerNip")),
+            @AttributeOverride(name = "street", column = @Column(name = "customerStreet")),
+            @AttributeOverride(name = "city", column = @Column(name = "customerCity")),
+            @AttributeOverride(name = "postCode", column = @Column(name = "customerPostCode"))
+    })
+    private DateCompany sellerData;
+
     @NotNull
     @OneToMany
     private List<PositionOnInvoice> positionOnInvoiceList;
 
-    private String statusOfPayment;
-    @NotEmpty
+    private StatusOfPayment statusOfPayment;
+    private BigDecimal paid;
     private Date dateOfPayment;
-    @NotEmpty
-    private String wayOfPayment;
-    @NotEmpty
+    private String descriptionOfPayment;
+    private WayOfPayment wayOfPayment;
     private String accountNumber;
+
+    private String dayOfTransfer;
 
     private String description;
 
@@ -47,7 +60,8 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(String numberOfInvoice, String placeOfCreation, Date dateOfCreation, Date dateOfSale, Customer customer, List<PositionOnInvoice> positionOnInvoiceList, String statusOfPayment, Date dateOfPayment, String wayOfPayment, String accountNumber, String description) {
+    public Invoice(Long id, @NotEmpty String numberOfInvoice, @NotEmpty String placeOfCreation, @NotEmpty Date dateOfCreation, @NotEmpty Date dateOfSale, @NotNull Customer customer, @NotNull List<PositionOnInvoice> positionOnInvoiceList, StatusOfPayment statusOfPayment, @NotEmpty BigDecimal paid, Date dateOfPayment, String descriptionOfPayment, @NotEmpty WayOfPayment wayOfPayment, @NotEmpty String accountNumber, String dayOfTransfer, String description, User user) {
+        this.id = id;
         this.numberOfInvoice = numberOfInvoice;
         this.placeOfCreation = placeOfCreation;
         this.dateOfCreation = dateOfCreation;
@@ -55,10 +69,14 @@ public class Invoice {
         this.customer = customer;
         this.positionOnInvoiceList = positionOnInvoiceList;
         this.statusOfPayment = statusOfPayment;
+        this.paid = paid;
         this.dateOfPayment = dateOfPayment;
+        this.descriptionOfPayment = descriptionOfPayment;
         this.wayOfPayment = wayOfPayment;
         this.accountNumber = accountNumber;
+        this.dayOfTransfer = dayOfTransfer;
         this.description = description;
+        this.user = user;
     }
 
     public String getNumberOfInvoice() {
@@ -109,12 +127,29 @@ public class Invoice {
         this.positionOnInvoiceList = positionOnInvoiceList;
     }
 
-    public String getStatusOfPayment() {
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public StatusOfPayment getStatusOfPayment() {
         return statusOfPayment;
     }
 
-    public void setStatusOfPayment(String stateOfPayment) {
-        this.statusOfPayment = stateOfPayment;
+    public void setStatusOfPayment(StatusOfPayment statusOfPayment) {
+        this.statusOfPayment = statusOfPayment;
+    }
+
+    public BigDecimal getPaid() {
+        return paid;
+    }
+
+    public void setPaid(BigDecimal paid) {
+        this.paid = paid;
     }
 
     public Date getDateOfPayment() {
@@ -125,11 +160,19 @@ public class Invoice {
         this.dateOfPayment = dateOfPayment;
     }
 
-    public String getWayOfPayment() {
+    public String getDescriptionOfPayment() {
+        return descriptionOfPayment;
+    }
+
+    public void setDescriptionOfPayment(String descriptionOfPayment) {
+        this.descriptionOfPayment = descriptionOfPayment;
+    }
+
+    public WayOfPayment getWayOfPayment() {
         return wayOfPayment;
     }
 
-    public void setWayOfPayment(String wayOfPayment) {
+    public void setWayOfPayment(WayOfPayment wayOfPayment) {
         this.wayOfPayment = wayOfPayment;
     }
 
@@ -141,6 +184,14 @@ public class Invoice {
         this.accountNumber = accountNumber;
     }
 
+    public String getDayOfTransfer() {
+        return dayOfTransfer;
+    }
+
+    public void setDayOfTransfer(String dayOfTransfer) {
+        this.dayOfTransfer = dayOfTransfer;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -149,13 +200,28 @@ public class Invoice {
         this.description = description;
     }
 
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public DateCompany getCustomerDate() {
+        return customerDate;
+    }
+
+    public void setCustomerDate(DateCompany customerDate) {
+        this.customerDate = customerDate;
+    }
+
+    public DateCompany getSellerData() {
+        return sellerData;
+    }
+
+    public void setSellerData(DateCompany sellerData) {
+        this.sellerData = sellerData;
     }
 
     @Override

@@ -38,6 +38,7 @@ public class CustomerController {
     }
     @DeleteMapping("{id}")
     Customer deleteCustomer(@PathVariable Long id){
+
         return customerService.delete(id);
     }
 }

@@ -2,8 +2,12 @@ package com.example.demo.services;
 
 import com.example.demo.exception.InvoiceNotFound;
 import com.example.demo.models.Invoice;
+import com.example.demo.models.StatusOfPayment;
+import com.example.demo.models.WayOfPayment;
 import com.example.demo.models.user.User;
+import com.example.demo.repositories.CustomerRepository;
 import com.example.demo.repositories.InvoiceRepository;
+import com.example.demo.repositories.PositionOnInvoiceRepository;
 import com.example.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +35,13 @@ class InvoiceServiceImplTest {
     UserRepository userRepository;
 
     @Mock
+    CustomerRepository customerRepository;
+
+    @Mock
     InvoiceRepository invoiceRepository;
+
+    @Mock
+    PositionOnInvoiceRepository positionOnInvoiceRepository;
 
     @Mock
     SecurityContext securityContext;
@@ -43,7 +53,7 @@ class InvoiceServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        invoiceService = new InvoiceServiceImpl(userRepository, invoiceRepository);
+        invoiceService = new InvoiceServiceImpl(userRepository, invoiceRepository, customerRepository, positionOnInvoiceRepository);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         when(authentication.getPrincipal()).thenReturn("rob");
@@ -110,8 +120,8 @@ class InvoiceServiceImplTest {
         invoice.setDateOfSale(date);
         invoice.setDateOfCreation(date);
         invoice.setAccountNumber("test");
-        invoice.setWayOfPayment("test");
-        invoice.setStatusOfPayment("test");
+        invoice.setWayOfPayment(WayOfPayment.CASH);
+        invoice.setStatusOfPayment(StatusOfPayment.PAID);
         invoice.setPlaceOfCreation("test");
 
         //when
@@ -135,8 +145,8 @@ class InvoiceServiceImplTest {
         invoice.setDateOfSale(date);
         invoice.setDateOfCreation(date);
         invoice.setAccountNumber("test");
-        invoice.setWayOfPayment("test");
-        invoice.setStatusOfPayment("test");
+        invoice.setWayOfPayment(WayOfPayment.CASH);
+        invoice.setStatusOfPayment(StatusOfPayment.PAID);
         invoice.setPlaceOfCreation("test");
 
         //when
